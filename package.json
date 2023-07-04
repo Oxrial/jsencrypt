@@ -1,7 +1,7 @@
 {
-    "name": "jsencrypt",
-    "version": "3.3.1",
-    "description": "A Javascript library to perform OpenSSL RSA Encryption, Decryption, and Key Generation.",
+    "name": "jsencrypt-oxr",
+    "version": "1.0.0",
+    "description": "A fork from travist/jsencrypt@3.3.1 and bartlian/jsencrypt-ext，support for privateKey encrypt，publicKey decrypt and long plaintext.",
     "main": "bin/jsencrypt.js",
     "module": "lib/index.js",
     "browser": "lib/index.js",
@@ -33,39 +33,22 @@
     ],
     "scripts": {
         "build:dev": "tsc && tsc --project tsconfig-def.json && webpack",
-        "build:test": "tsc && tsc --project tsconfig-def.json && webpack --config webpack.test.js",
         "build:prod": "tsc && tsc --project tsconfig-def.json && webpack --config webpack.prod.js",
-        "build": "npm run build:dev && npm run build:test && npm run build:prod",
-        "serve": "bundle exec jekyll server --config _config.build.yml",
-        "test": "ts-mocha test/test.rsa.js"
+        "build": "npm run build:dev && npm run build:prod",
+        "serve": "bundle exec jekyll server --config _config.build.yml"
     },
-    "author": "Travis Tidwell <travis@form.io>",
-    "contributors": [
-        {
-            "name": "Travis Tidwell",
-            "email": "travis@form.io",
-            "url": "http://github.com/travist"
-        },
-        {
-            "name": "Antonio",
-            "url": "https://github.com/zoloft"
-        },
-        {
-            "name": "Julio",
-            "url": "https://github.com/jmgaya"
-        },
-        {
-            "name": "Taehyun Hwang",
-            "url": "https://github.com/HwangTaehyun"
-        }
-    ],
-    "homepage": "http://www.travistidwell.com/jsencrypt",
+    "author": "Oxrial",
+    "homepage": "https://github.com/Oxrial/jsencrypt.git",
     "repository": {
         "type": "git",
-        "url": "git://github.com/travist/jsencrypt.git"
+        "url": "https://github.com/Oxrial/jsencrypt.git"
     },
-    "bugs": {
-        "url": "http://github.com/travist/jsencrypt/issues"
-    },
+    "based from": "https://github.com/travist/jsencrypt",
+    "contributors": [
+        {
+            "name": "jsencrypt-ext",
+            "url": "https://github.com/bartlian/jsencrypt-ext.git"
+        }
+    ],
     "license": "MIT"
 }

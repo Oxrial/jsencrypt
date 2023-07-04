@@ -44,7 +44,7 @@ export declare class JSEncrypt {
      * @public
      */
     setPublicKey(pubkey: string): void;
-    doDecrypt(str: string, options: IEncryptEncodingOptions): string;
+    doDecrypt(hexText: string, options: IEncryptEncodingOptions): string;
     /**
      * Proxy method for RSAKey object's decrypt, decrypt the string using the private
      * components of the rsa key object. Note that if the object was not set will be created
@@ -60,7 +60,7 @@ export declare class JSEncrypt {
      * @param options
      * @returns
      */
-    decryptExt(cipherText: string, options?: IEncryptEncodingOptions): string | false;
+    decryptOxr(cipherText: string, options?: IEncryptEncodingOptions): string | false;
     doEncrypt(str: string, options: IEncryptEncodingOptions): string;
     /**
      * Proxy method for RSAKey object's encrypt, encrypt the string using the public
@@ -77,7 +77,7 @@ export declare class JSEncrypt {
      * @param options
      * @returns
      */
-    encryptExt(str: string, options?: IEncryptEncodingOptions): string | false;
+    encryptOxr(str: string, options?: IEncryptEncodingOptions): string | false;
     /**
      * Proxy method for RSAKey object's sign.
      * @param {string} str the string to sign

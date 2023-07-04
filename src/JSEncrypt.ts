@@ -74,14 +74,14 @@ export class JSEncrypt {
         this.setKey(pubkey);
     }
 
-    doDecrypt(str: string, options: IEncryptEncodingOptions) {
+    doDecrypt(hexText: string, options: IEncryptEncodingOptions) {
         let decrypted = "";
         switch (options.by) {
             case "PublicKey":
-                decrypted = this.getKey().decryptByPublicKey(b64tohex(str));
+                decrypted = this.getKey().decryptByPublicKey(hexText);
                 break;
             default:
-                decrypted = this.getKey().decrypt(b64tohex(str));
+                decrypted = this.getKey().decrypt(hexText);
                 break;
         }
         return decrypted;
@@ -98,7 +98,8 @@ export class JSEncrypt {
         options.by = options.by || "PrivateKey";
         // Return the decrypted string.
         try {
-            return this.doDecrypt(str, options);
+            const hexText = b64tohex(str);
+            return this.doDecrypt(hexText, options);
         } catch (ex) {
             return false;
         }
@@ -110,7 +111,7 @@ export class JSEncrypt {
      * @param options
      * @returns
      */
-    public decryptExt(cipherText: string, options: IEncryptEncodingOptions = {}) {
+    public decryptOxr(cipherText: string, options: IEncryptEncodingOptions = {}) {
         try {
             const hexText = b64tohex(cipherText);
             // @ts-ignore
@@ -168,7 +169,7 @@ export class JSEncrypt {
      * @param options
      * @returns
      */
-    public encryptExt(str: string, options: IEncryptEncodingOptions = {}) {
+    public encryptOxr(str: string, options: IEncryptEncodingOptions = {}) {
         try {
             // @ts-ignore
             const maxByteLength = ((this.getKey().n.bitLength() + 7) >> 3) - 11;
