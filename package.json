@@ -1,7 +1,7 @@
 {
     "name": "jsencrypt-oxr",
     "version": "1.0.0",
-    "description": "A fork from travist/jsencrypt@3.3.1 and bartlian/jsencrypt-ext，support for privateKey encrypt，publicKey decrypt and long plaintext.",
+    "description": "A forked from travist/jsencrypt@3.3.1 and bartlian/jsencrypt-ext，support for privateKey encrypt，publicKey decrypt and long plaintext.",
     "main": "bin/jsencrypt.js",
     "module": "lib/index.js",
     "browser": "lib/index.js",

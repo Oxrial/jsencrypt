@@ -1,6 +1,6 @@
 ## Introductio
 
-A fork from [jsencrypt](https://www.npmjs.com/package/jsencrypt) and [jsencrypt-ext](https://www.npmjs.com/package/jsencrypt-ext)，support for privateKey encrypt，publicKey decrypt and long plaintext.
+A forked from [jsencrypt](https://www.npmjs.com/package/jsencrypt) and [jsencrypt-ext](https://www.npmjs.com/package/jsencrypt-ext)，support for privateKey encrypt，publicKey decrypt and long plaintext.
 
 ## PrivateKey encrypt and PublicKey decrypt
 
@@ -16,14 +16,12 @@ const dencrypted = dencrypt.decrypt(encrypted as string, { by: "PublicKey" })
 console.log("公钥解密 dencrypted:", dencrypted)
 ```
 
-### 扩充API
+### 扩充 API
 
-| function(args)        | options: IEncryptEncodingOptions = <br/> {    encoding?: "ASCII" \|"UTF8"; by?: "PrivateKey" \|"PublicKey"; } | desc              |
-| --------------------- | ------------------------------------------------------------ | ----------------- |
-| encrypt(str, options) | default = { encoding: "*UTF8*", by: "*PublicKey*" }          | 公钥(d)/私钥 加密 |
-| decrypt(str, options) | default = { by: "*PrivateKey*" }                             | 私钥(d)/公钥 解密 |
-
-
+| function(args)        | options: IEncryptEncodingOptions = <br/> { encoding?: "ASCII" \|"UTF8"; by?: "PrivateKey" \|"PublicKey"; } | desc              |
+| --------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------- |
+| encrypt(str, options) | default = { encoding: "_UTF8_", by: "_PublicKey_" }                                                        | 公钥(d)/私钥 加密 |
+| decrypt(str, options) | default = { by: "_PrivateKey_" }                                                                           | 私钥(d)/公钥 解密 |
 
 ## Long Plaintext
 
@@ -44,10 +42,9 @@ const dencrypted = dencrypt.decryptExt(encrypted as string)
 console.log("私钥解密 dencrypted:", dencrypted)
 ```
 
-### 扩充API
+### 扩充 API
 
-| function(args)           | options: IEncryptEncodingOptions = <br/> {    encoding?: "ASCII" \|"UTF8"; by?: "PrivateKey" \|"PublicKey"; } | description       |
-| ------------------------ | ------------------------------------------------------------ | ----------------- |
-| encryptOxr(str, options) | default = { encoding: "*UTF8*", by: "*PublicKey*" }          | 公钥(d)/私钥 加密 |
-| decryptOxr(str, options) | default = { by: "*PrivateKey*" }                             | 私钥(d)/公钥 解密 |
-
+| function(args)           | options: IEncryptEncodingOptions = <br/> { encoding?: "ASCII" \|"UTF8"; by?: "PrivateKey" \|"PublicKey"; } | description       |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------- | ----------------- |
+| encryptOxr(str, options) | default = { encoding: "_UTF8_", by: "_PublicKey_" }                                                        | 公钥(d)/私钥 加密 |
+| decryptOxr(str, options) | default = { by: "_PrivateKey_" }                                                                           | 私钥(d)/公钥 解密 |
