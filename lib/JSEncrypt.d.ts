@@ -4,6 +4,10 @@ export interface IJSEncryptOptions {
     default_public_exponent?: string;
     log?: boolean;
 }
+export declare type IEncryptEncodingOptions = {
+    encoding?: "ASCII" | "UTF8";
+    by?: "PrivateKey" | "PublicKey";
+};
 /**
  *
  * @param {Object} [options = {}] - An object to customize JSEncrypt behaviour
@@ -40,6 +44,7 @@ export declare class JSEncrypt {
      * @public
      */
     setPublicKey(pubkey: string): void;
+    doDecrypt(str: string, options: IEncryptEncodingOptions): string;
     /**
      * Proxy method for RSAKey object's decrypt, decrypt the string using the private
      * components of the rsa key object. Note that if the object was not set will be created
@@ -48,7 +53,15 @@ export declare class JSEncrypt {
      * @return {string} the decrypted string
      * @public
      */
-    decrypt(str: string): string | false;
+    decrypt(str: string, options?: IEncryptEncodingOptions): string | false;
+    /**
+     * support for long plaintext
+     * @param cipherText
+     * @param options
+     * @returns
+     */
+    decryptExt(cipherText: string, options?: IEncryptEncodingOptions): string | false;
+    doEncrypt(str: string, options: IEncryptEncodingOptions): string;
     /**
      * Proxy method for RSAKey object's encrypt, encrypt the string using the public
      * components of the rsa key object. Note that if the object was not set will be created
@@ -57,7 +70,14 @@ export declare class JSEncrypt {
      * @return {string} the encrypted string encoded in base64
      * @public
      */
-    encrypt(str: string): string | false;
+    encrypt(str: string, options?: IEncryptEncodingOptions): string | false;
+    /**
+     * support for long plaintext
+     * @param str
+     * @param options
+     * @returns
+     */
+    encryptExt(str: string, options?: IEncryptEncodingOptions): string | false;
     /**
      * Proxy method for RSAKey object's sign.
      * @param {string} str the string to sign

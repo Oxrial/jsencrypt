@@ -1,14 +1,17 @@
 import { b64tohex, hex2b64 } from "./lib/jsbn/base64";
 import { JSEncryptRSAKey } from "./JSEncryptRSAKey";
-const version = typeof process !== 'undefined'
-    ? process.env?.npm_package_version
-    : undefined;
+const version =
+    typeof process !== "undefined" ? process.env?.npm_package_version : undefined;
 
 export interface IJSEncryptOptions {
     default_key_size?: string;
     default_public_exponent?: string;
     log?: boolean;
 }
+export type IEncryptEncodingOptions = {
+    encoding?: "ASCII" | "UTF8";
+    by?: "PrivateKey" | "PublicKey";
+};
 
 /**
  *
@@ -71,6 +74,18 @@ export class JSEncrypt {
         this.setKey(pubkey);
     }
 
+    doDecrypt(str: string, options: IEncryptEncodingOptions) {
+        let decrypted = "";
+        switch (options.by) {
+            case "PublicKey":
+                decrypted = this.getKey().decryptByPublicKey(b64tohex(str));
+                break;
+            default:
+                decrypted = this.getKey().decrypt(b64tohex(str));
+                break;
+        }
+        return decrypted;
+    }
     /**
      * Proxy method for RSAKey object's decrypt, decrypt the string using the private
      * components of the rsa key object. Note that if the object was not set will be created
@@ -79,15 +94,56 @@ export class JSEncrypt {
      * @return {string} the decrypted string
      * @public
      */
-    public decrypt(str: string) {
+    public decrypt(str: string, options: IEncryptEncodingOptions = {}) {
+        options.by = options.by || "PrivateKey";
         // Return the decrypted string.
         try {
-            return this.getKey().decrypt(b64tohex(str));
+            return this.doDecrypt(str, options);
         } catch (ex) {
             return false;
         }
     }
 
+    /**
+     * support for long plaintext
+     * @param cipherText
+     * @param options
+     * @returns
+     */
+    public decryptExt(cipherText: string, options: IEncryptEncodingOptions = {}) {
+        try {
+            const hexText = b64tohex(cipherText);
+            // @ts-ignore
+            const maxLength = this.getKey().n.bitLength() / 4;
+
+            if (hexText.length <= maxLength) {
+                return this.doDecrypt(hexText, options);
+            } else {
+                // long cipher text decrypt
+                const arr = hexText.match(new RegExp(".{1," + maxLength + "}", "g"))!;
+                const plainText = arr.reduce((acc, cur) => {
+                    return acc + this.doDecrypt(cur, options);
+                }, "");
+
+                return plainText;
+            }
+        } catch (error) {
+            return false;
+        }
+    }
+
+    doEncrypt(str: string, options: IEncryptEncodingOptions) {
+        let encrypted = "";
+        switch (options.by) {
+            case "PrivateKey":
+                encrypted = this.getKey().encryptByPrivateKey(str, options.encoding);
+                break;
+            default:
+                encrypted = this.getKey().encrypt(str);
+                break;
+        }
+        return encrypted;
+    }
     /**
      * Proxy method for RSAKey object's encrypt, encrypt the string using the public
      * components of the rsa key object. Note that if the object was not set will be created
@@ -96,15 +152,63 @@ export class JSEncrypt {
      * @return {string} the encrypted string encoded in base64
      * @public
      */
-    public encrypt(str: string) {
+    public encrypt(str: string, options: IEncryptEncodingOptions = {}) {
+        options.by = options.by || "PublicKey";
+        options.encoding = options.encoding || "UTF8";
         // Return the encrypted string.
         try {
-            return hex2b64(this.getKey().encrypt(str));
+            return hex2b64(this.doEncrypt(str, options));
         } catch (ex) {
             return false;
         }
     }
+    /**
+     * support for long plaintext
+     * @param str
+     * @param options
+     * @returns
+     */
+    public encryptExt(str: string, options: IEncryptEncodingOptions = {}) {
+        try {
+            // @ts-ignore
+            const maxByteLength = ((this.getKey().n.bitLength() + 7) >> 3) - 11;
+            let i = 0;
+            const byteArr = [];
+            while (i <= str.length - 1) {
+                const c = str.charCodeAt(i);
+                if (c < 128) {
+                    byteArr.push(str[i]);
+                } else if (c > 127 && c < 2048) {
+                    byteArr.push(null, str[i]);
+                } else {
+                    byteArr.push(null, null, str[i]);
+                }
+                i++;
+            }
 
+            if (byteArr.length <= maxByteLength) {
+                return this.encrypt(str, options);
+            } else {
+                // long plain text encrypt
+                let cipherStrSum = "";
+                while (byteArr.length > 0) {
+                    let offset = maxByteLength;
+                    while (byteArr[offset - 1] === null) {
+                        offset = offset - 1;
+                    }
+                    const text = byteArr
+                        .slice(0, offset)
+                        .filter((i) => i !== null)
+                        .join("");
+                    cipherStrSum += this.doEncrypt(text, options);
+                    byteArr.splice(0, offset);
+                }
+                return hex2b64(cipherStrSum);
+            }
+        } catch (error) {
+            return false;
+        }
+    }
     /**
      * Proxy method for RSAKey object's sign.
      * @param {string} str the string to sign
