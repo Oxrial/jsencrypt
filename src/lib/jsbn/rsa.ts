@@ -285,7 +285,6 @@ export class RSAKey {
     // Generate a new random private key B bits long, using public expt E
     public generate(B: number, E: string) {
         const rng = new SecureRandom();
-        console.log(rng);
         const qs = B >> 1;
         this.e = parseInt(E, 16);
         const ee = new BigInteger(E, 16);

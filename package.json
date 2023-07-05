@@ -1,7 +1,7 @@
 {
     "name": "jsencrypt-oxr",
     "version": "1.0.0",
-    "description": "A forked from travist/jsencrypt@3.3.1 and bartlian/jsencrypt-ext，support for privateKey encrypt，publicKey decrypt and long plaintext.",
+    "description": "A based from travist/jsencrypt@3.3.1 and bartlian/jsencrypt-ext，support for privateKey encrypt，publicKey decrypt and long plaintext.",
     "main": "bin/jsencrypt.js",
     "module": "lib/index.js",
     "browser": "lib/index.js",
@@ -38,10 +38,10 @@
         "serve": "bundle exec jekyll server --config _config.build.yml"
     },
     "author": "Oxrial",
-    "homepage": "https://github.com/Oxrial/jsencrypt.git",
+    "homepage": "https://github.com/Oxrial/jsencrypt-oxr.git",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Oxrial/jsencrypt.git"
+        "url": "git+https://github.com/Oxrial/jsencrypt-oxr.git"
     },
     "based from": "https://github.com/travist/jsencrypt",
     "contributors": [
